@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="WordPress Coding Standards for Dokan">
+<ruleset name="WordPress Coding Standards">
     <description>Generally-applicable sniffs for WordPress plugins.</description>
 
     <!-- What to scan -->
@@ -53,7 +53,7 @@
     <rule ref="WordPress.WP.I18n">
         <properties>
             <!-- Value: replace the text domain used. -->
-            <property name="text_domain" type="array" value="dokan"/>
+            <property name="text_domain" type="array" value="plugin-stub"/>
         </properties>
     </rule>
     <rule ref="WordPress.WhiteSpace.ControlStructureSpacing">

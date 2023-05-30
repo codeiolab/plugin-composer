@@ -4,6 +4,7 @@ namespace WeLabs\PluginComposer;
 
 class ShortCode {
     public const NAME = 'wlb_plugin_composer';
+    protected $error_messages = [];
 
     public function __construct() {
         add_shortcode( self::NAME, [ $this, 'shortcode' ], 2 );
@@ -17,7 +18,7 @@ class ShortCode {
 				'submit-text' => 'Submit',
 			], $attr
         );
-
+        $error_messages = apply_filters( 'get_welabs_plugin_compose_form_errors', $this->error_messages );
         $form_template = apply_filters( 'get_welabs_plugin_compose_form', PLUGIN_COMPOSER_TEMPLATE_DIR . '/compose-form.php' );
 
         ob_start();
@@ -28,13 +29,22 @@ class ShortCode {
     }
 
     public function handle_form_submission() {
-        $post_data = $_POST;
-
-        if ( ! isset( $post_data['wlb-compose-plugin'] ) || ! wp_verify_nonce( $post_data['wlb-compose-plugin'], 'wlb-compose-plugin' ) ) {
+        if ( ! wp_verify_nonce( wp_unslash( $_POST['wlb-compose-plugin'] ?? '' ), 'wlb-compose-plugin' ) ) {
             return;
         }
 
-        if ( ! isset( $post_data['plugin_name'] ) || ! $post_data['plugin_name'] ) {
+        $post_data = $_POST;
+
+        if ( ! isset( $post_data['plugin_name'] ) ) {
+            return;
+        }
+
+        $plugin_name = sanitize_title( $post_data['plugin_name'] ?? '' );
+
+        if ( isset( $post_data['plugin_name'] ) && $plugin_name === '' ) {
+            $this->error_messages = [
+                'plugin_name' => __( 'Plugin name is required.', 'welabs-plugin-composer' ),
+            ];
             return;
         }
 

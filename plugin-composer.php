@@ -30,6 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 final class Plugin_Composer {
 
+
 	/**
 	 * Plugin version
 	 *

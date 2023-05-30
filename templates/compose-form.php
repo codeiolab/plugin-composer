@@ -1,20 +1,13 @@
-<?php
-$post_data = $_POST;
-$errors = [
-    'plugin_name' => '',
-];
-if ( count( $_POST ) && ( ! isset( $post_data['plugin_name'] ) || trim( $post_data['plugin_name'] ) === '' ) ) {
-    $errors['plugin_name'] = 'Plugin name is required.';
-}
-?>
 <form action="" method="POST" class="wlb-compose-plugin-form <?php echo esc_attr( $attr['class'] ?? '' ); ?>">
     <div class="form-group">
         <label class="control-label" for="plugin_name">
-            Plugin Name
+            Plugin Name *
         </label>
-        <input name="plugin_name" id="plugin_name" required class="input-control" placeholder="My Plugin">
-        <div class="error-message"> <?php echo $errors['plugin_name']; ?></div>
-    </div>
+        <div class="input-group">
+            <input name="plugin_name" id="plugin_name" required class="input-control" placeholder="My Plugin">
+            <div class="error-message"> <?php echo $error_messages['plugin_name'] ?? ''; ?></div>
+        </div>
+        </div>
 
     <div class="form-group">
         <label class="control-label" for="plugin_description">
@@ -27,7 +20,7 @@ if ( count( $_POST ) && ( ! isset( $post_data['plugin_name'] ) || trim( $post_da
         <label class="control-label" for="plugin_license">
             Plugin License
         </label>
-        <input name="plugin_license" id="plugin_license" required class="input-control" placeholder="License e.i GPL2">
+        <input name="plugin_license" id="plugin_license" class="input-control" placeholder="License e.i GPL2">
     </div>
 
     <div class="form-group">
