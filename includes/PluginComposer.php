@@ -45,8 +45,8 @@ final class PluginComposer {
 	private function __construct() {
 		$this->define_constants();
 
-		register_activation_hook( __FILE__, array( $this, 'activate' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
+		register_activation_hook( PLUGIN_COMPOSER_FILE, array( $this, 'activate' ) );
+		register_deactivation_hook( PLUGIN_COMPOSER_FILE, array( $this, 'deactivate' ) );
 
 		add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
 		add_action( 'woocommerce_flush_rewrite_rules', array( $this, 'flush_rewrite_rules' ) );
