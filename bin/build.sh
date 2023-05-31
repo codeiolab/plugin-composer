@@ -68,3 +68,5 @@ zip -r -q plugin-composer.zip plugin-composer
 rm -rf plugin-composer
 
 success "Done. You've built Plugin Composer! 🎉 "
+
+echo -e "\n${BLUE_BOLD}File Path${COLOR_RESET}: ${YELLOW_BOLD}$(pwd)/plugin-composer.zip${COLOR_RESET} \n"
