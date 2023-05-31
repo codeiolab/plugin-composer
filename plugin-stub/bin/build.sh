@@ -68,3 +68,4 @@ zip -r -q plugin-stub.zip plugin-stub
 rm -rf plugin-stub
 
 success "Done. You've built Plugin Stub! 🎉 "
+echo -e "\n${BLUE_BOLD}File Path${COLOR_RESET}: ${YELLOW_BOLD}$(pwd)/plugin-stub.zip${COLOR_RESET} \n"

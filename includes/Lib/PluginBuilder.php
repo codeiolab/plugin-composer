@@ -8,9 +8,10 @@ use WeLabs\PluginComposer\Contracts\FileSystemContract;
 class PluginBuilder implements BuilderContract {
 
     /**
-     * @var \WeLabs\PluginComposer\Contracts\FileSystemContract;
+     * @var \WeLabs\PluginComposer\Contracts\FileSystemContract
      */
     protected $file_system;
+
     protected $placeholders = [
         'plugin_description' => 'Custom plugin by weLabs',
         'plugin_license' => 'GPL2',
@@ -26,21 +27,23 @@ class PluginBuilder implements BuilderContract {
 
     public function build( $plugin_name ): string {
         $plugin_dir_name = $this->get_plugin_directory_name( $plugin_name );
-        $dest_plugin = $this->get_dest_plugin_path( $plugin_dir_name );
-
+        $dest_dir = $this->get_dest_plugin_path( $plugin_dir_name );
         $this->file_system->copy(
             $this->get_stub_plugin_path(),
-            $dest_plugin
+            $dest_dir
         );
+        $zip_path = $dest_dir . time() . '.zip';
 
-        $zip_name = $dest_plugin . time() . '.zip';
-        $this->file_system->replace( $dest_plugin, $this->get_placeholders( $plugin_name ) );
-        $this->file_system->replace( $dest_plugin, $this->placeholders );
-        $this->file_system->rename( $dest_plugin . '/plugin-stub.php', $dest_plugin . '/' . $plugin_dir_name . '.php' );
-        $this->file_system->zip( $dest_plugin, $zip_name );
-        $this->file_system->remove( $dest_plugin );
+        $placeholders = $this->get_placeholders( $plugin_name );
+        $plugin_class_name = $placeholders['PluginStub'];
 
-        return $zip_name;
+        $this->file_system->replace( $dest_dir, $placeholders );
+        $this->file_system->rename( $dest_dir . '/plugin-stub.php', $dest_dir . '/' . $plugin_dir_name . '.php' );
+        $this->file_system->rename( $dest_dir . '/includes/PluginStub.php', $dest_dir . '/includes/' . $plugin_class_name . '.php' );
+        $this->file_system->zip( $dest_dir, $zip_path );
+        $this->file_system->remove( $dest_dir );
+
+        return $zip_path;
     }
 
     protected function get_stub_plugin_path(): string {

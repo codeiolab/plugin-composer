@@ -29,8 +29,8 @@ class ShortCode {
     }
 
     public function handle_form_submission() {
-        if ( ! wp_verify_nonce( wp_unslash( $_POST['wlb-compose-plugin'] ?? '' ), 'wlb-compose-plugin' ) ) {
-            return;
+        if ( ! isset( $_POST['wlb-compose-plugin'] ) || ! wp_verify_nonce( wp_unslash( $_POST['wlb-compose-plugin'] ), 'wlb-compose-plugin' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			return;
         }
 
         $post_data = $_POST;
