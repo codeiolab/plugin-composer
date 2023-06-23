@@ -41,8 +41,8 @@ final class PluginStub {
     private function __construct() {
         $this->define_constants();
 
-        register_activation_hook( __FILE__, [ $this, 'activate' ] );
-        register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
+        register_activation_hook( PLUGIN_STUB_FILE, [ $this, 'activate' ] );
+        register_deactivation_hook( PLUGIN_STUB_FILE, [ $this, 'deactivate' ] );
 
         add_action( 'plugins_loaded', [ $this, 'init_plugin' ] );
         add_action( 'woocommerce_flush_rewrite_rules', [ $this, 'flush_rewrite_rules' ] );
