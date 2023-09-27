@@ -83,6 +83,11 @@ final class PluginStub {
      * Nothing being called here yet.
      */
     public function activate() {
+        // Check plugin_stub dependency plugins
+        if ( ! $this->check_dependencies() ) {
+            wp_die( $this->get_dependency_message() );
+        }
+
         // Rewrite rules during plugin_stub activation
         if ( $this->has_woocommerce() ) {
             $this->flush_rewrite_rules();
@@ -143,6 +148,12 @@ final class PluginStub {
      * @return void
      */
     public function init_plugin() {
+        // Check plugin_stub dependency plugins
+        if ( ! $this->check_dependencies() ) {
+            add_action( 'admin_notices', [ $this, 'admin_error_notice_for_dependency_missing' ] );
+            return;
+        }
+
         $this->includes();
         $this->init_hooks();
 
@@ -211,5 +222,41 @@ final class PluginStub {
      */
     public function is_woocommerce_installed() {
         return in_array( 'woocommerce/woocommerce.php', array_keys( get_plugins() ), true );
+    }
+
+    /**
+     * Check plugin dependencies
+     *
+     * @return boolean
+     */
+    public function check_dependencies() {
+        if ( ! class_exists( 'Woocommerce' ) || ! class_exists( 'WeDevs_Dokan' ) || ! class_exists( 'Dokan_Pro' ) ) {
+            return false;
+        }
+
+        if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) || ! is_plugin_active( 'dokan-lite/dokan.php' ) || ! is_plugin_active( 'dokan-pro/dokan-pro.php' ) ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Dependency error message
+     *
+     * @return void
+     */
+    protected function get_dependency_message() {
+        return __( 'Plugin Stub plugin is enabled but not effective. It requires WooCommerce, Dokan Lite & Dokan Pro plugins to work.', 'plugin-stub' );
+    }
+
+    /**
+     * Admin error notice for missing dependency plugins
+     *
+     * @return void
+     */
+    public function admin_error_notice_for_dependency_missing() {
+        $class = 'notice notice-error';
+		printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $this->get_dependency_message() ) );
     }
 }
