@@ -39,7 +39,7 @@ final class PluginStub {
      *
      * @var array
      */
-    const PLUGIN_STUB_DEPENEDENCIES = [
+    private const PLUGIN_STUB_DEPENEDENCIES = [
         'plugins' => [
             'woocommerce/woocommerce.php',
             'dokan-lite/dokan.php',
@@ -253,16 +253,24 @@ final class PluginStub {
      * @return boolean
      */
     public function check_dependencies() {
-        if ( ! class_exists( 'Woocommerce' ) || ! class_exists( 'WeDevs_Dokan' ) || ! class_exists( 'Dokan_Pro' ) ) {
-            return false;
-        }
-
-        if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) || ! is_plugin_active( 'dokan-lite/dokan.php' ) || ! is_plugin_active( 'dokan-pro/dokan-pro.php' ) ) {
-            return false;
-        }
-
-        if( ! function_exists('dokan_admin_menu_position')) {
-            return false;
+        if( array_key_exists( 'plugins', self::PLUGIN_STUB_DEPENEDENCIES ) && !empty( self::PLUGIN_STUB_DEPENEDENCIES[ 'plugins' ] ) ){
+            for( $plugin_counter = 0; $plugin_counter < count( self::PLUGIN_STUB_DEPENEDENCIES[ 'plugins' ] ); $plugin_counter++ ){
+                if( ! is_plugin_active( self::PLUGIN_STUB_DEPENEDENCIES[ 'plugins' ][$plugin_counter] ) ) {
+                    return false;
+                }
+            }
+        }else if( array_key_exists( 'classes', self::PLUGIN_STUB_DEPENEDENCIES ) && !empty( self::PLUGIN_STUB_DEPENEDENCIES[ 'classes' ] ) ){
+            for( $class_counter = 0; $class_counter < count( self::PLUGIN_STUB_DEPENEDENCIES[ 'classes' ] ); $class_counter++ ){
+                if( ! class_exists( self::PLUGIN_STUB_DEPENEDENCIES[ 'classes' ][$class_counter] ) ) {
+                    return false;
+                }
+            }
+        }else if( array_key_exists( 'functions', self::PLUGIN_STUB_DEPENEDENCIES ) && !empty( self::PLUGIN_STUB_DEPENEDENCIES[ 'functions' ] ) ){
+            for( $func_counter = 0; $func_counter < count( self::PLUGIN_STUB_DEPENEDENCIES[ 'functions' ] ); $func_counter++ ){
+                if( ! function_exists( self::PLUGIN_STUB_DEPENEDENCIES[ 'functions' ][$func_counter] ) ) {
+                    return false;
+                }
+            }
         }
 
         return true;
@@ -274,7 +282,7 @@ final class PluginStub {
      * @return void
      */
     protected function get_dependency_message() {
-        return __( 'Plugin Stub plugin is enabled but not effective. It requires WooCommerce, Dokan Lite & Dokan Pro plugins to work.', 'plugin-stub' );
+        return __( 'Plugin Stub plugin is enabled but not effective. It requires dependency plugins to work.', 'plugin-stub' );
     }
 
     /**
