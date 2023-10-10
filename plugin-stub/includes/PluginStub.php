@@ -41,17 +41,17 @@ final class PluginStub {
      */
     private const PLUGIN_STUB_DEPENEDENCIES = [
         'plugins' => [
-            'woocommerce/woocommerce.php',
-            'dokan-lite/dokan.php',
-            'dokan-pro/dokan-pro.php'
+            // 'woocommerce/woocommerce.php',
+            // 'dokan-lite/dokan.php',
+            // 'dokan-pro/dokan-pro.php'
         ],
         'classes' => [
-            'Woocommerce',
-            'WeDevs_Dokan',
-            'Dokan_Pro'
+            // 'Woocommerce',
+            // 'WeDevs_Dokan',
+            // 'Dokan_Pro'
         ],
         'functions' => [
-            'dokan_admin_menu_position'
+            // 'dokan_admin_menu_position'
         ],
     ];
 
