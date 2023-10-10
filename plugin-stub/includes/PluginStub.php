@@ -33,6 +33,29 @@ final class PluginStub {
     private $container = [];
 
     /**
+     * Plugin dependencies
+     *
+     * @since 2.6.10
+     *
+     * @var array
+     */
+    const PLUGIN_STUB_DEPENEDENCIES = [
+        'plugins' => [
+            'woocommerce/woocommerce.php',
+            'dokan-lite/dokan.php',
+            'dokan-pro/dokan-pro.php'
+        ],
+        'classes' => [
+            'Woocommerce',
+            'WeDevs_Dokan',
+            'Dokan_Pro'
+        ],
+        'functions' => [
+            'dokan_admin_menu_position'
+        ],
+    ];
+
+    /**
      * Constructor for the PluginStub class
      *
      * Sets up all the appropriate hooks and actions
@@ -235,6 +258,10 @@ final class PluginStub {
         }
 
         if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) || ! is_plugin_active( 'dokan-lite/dokan.php' ) || ! is_plugin_active( 'dokan-pro/dokan-pro.php' ) ) {
+            return false;
+        }
+
+        if( ! function_exists('dokan_admin_menu_position')) {
             return false;
         }
 
