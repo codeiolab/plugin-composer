@@ -40,17 +40,17 @@ final class PluginStub {
      * @var array
      */
     private const PLUGIN_STUB_DEPENEDENCIES = [
-        'plugins' => [
+        'plugins' => [ plugin_dependency_plugins
             // 'woocommerce/woocommerce.php',
             // 'dokan-lite/dokan.php',
             // 'dokan-pro/dokan-pro.php'
         ],
-        'classes' => [
+        'classes' => [ plugin_dependency_classes
             // 'Woocommerce',
             // 'WeDevs_Dokan',
             // 'Dokan_Pro'
         ],
-        'functions' => [
+        'functions' => [ plugin_dependency_functions
             // 'dokan_admin_menu_position'
         ],
     ];

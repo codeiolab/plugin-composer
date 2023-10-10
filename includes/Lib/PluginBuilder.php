@@ -19,6 +19,9 @@ class PluginBuilder implements BuilderContract {
         'plugin_author_name' => 'WeLabs',
         'plugin_author_email' => 'contact@welabs.dev',
         'plugin_author_uri' => 'https://welabs.dev',
+        'plugin_dependency_plugins' => '',
+        'plugin_dependency_classes' => '',
+        'plugin_dependency_functions' => '',
     ];
 
     public function __construct( FileSystemContract $file_system ) {

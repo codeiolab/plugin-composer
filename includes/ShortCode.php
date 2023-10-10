@@ -57,6 +57,11 @@ class ShortCode {
         $request_data['plugin_author_email'] = sanitize_text_field( $post_data['plugin_author_email'] ?? '' );
         $request_data['plugin_author_uri'] = sanitize_text_field( $post_data['plugin_uri'] ?? '' );
 
+
+        $request_data['plugin_dependency_plugins'] = sanitize_text_field( $this->generate_dependencies($post_data['plugin_dependency_plugins']) ?? '' );
+        $request_data['plugin_dependency_classes'] = sanitize_text_field( $this->generate_dependencies($post_data['plugin_dependency_classes']) ?? '' );
+        $request_data['plugin_dependency_functions'] = sanitize_text_field( $this->generate_dependencies($post_data['plugin_dependency_functions']) ?? '' );
+
         $request_data = apply_filters( 'welabs_plugin_composer_form_data', array_filter( $request_data ) );
 
         $builder = welabs_plugin_composer()->get_builder();
@@ -87,5 +92,18 @@ class ShortCode {
         }
 
         wp_safe_redirect( '' );
+    }
+
+    public function generate_dependencies( $inputs ){
+        
+        $parts = explode(',', $inputs);
+
+        $quotedParts = array_map(function ($part) {
+            return "'" . trim($part) . "'";
+        }, $parts);
+
+        $outputString = implode(', ', $quotedParts);
+
+        return $outputString;
     }
 }
