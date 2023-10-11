@@ -34,25 +34,17 @@ final class PluginStub {
 
     /**
      * Plugin dependencies
-     *
+     * 'plugins' => ['woocommerce/woocommerce.php', 'dokan-lite/dokan.php']
+     * 'classes' => ['Woocommerce', 'WeDevs_Dokan']
+     * 'functions' => ['dokan_admin_menu_position']
      * @since 2.6.10
      *
      * @var array
      */
     private const PLUGIN_STUB_DEPENEDENCIES = [
-        'plugins' => [ plugin_dependency_plugins
-            // 'woocommerce/woocommerce.php',
-            // 'dokan-lite/dokan.php',
-            // 'dokan-pro/dokan-pro.php'
-        ],
-        'classes' => [ plugin_dependency_classes
-            // 'Woocommerce',
-            // 'WeDevs_Dokan',
-            // 'Dokan_Pro'
-        ],
-        'functions' => [ plugin_dependency_functions
-            // 'dokan_admin_menu_position'
-        ],
+        'plugins' => plugin_dependency_plugins,
+        'classes' => plugin_dependency_classes,
+        'functions' => plugin_dependency_functions,
     ];
 
     /**

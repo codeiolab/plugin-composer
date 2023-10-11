@@ -58,9 +58,9 @@ class ShortCode {
         $request_data['plugin_author_uri'] = sanitize_text_field( $post_data['plugin_uri'] ?? '' );
 
 
-        $request_data['plugin_dependency_plugins'] = sanitize_text_field( $this->generate_dependencies($post_data['plugin_dependency_plugins']) ?? '' );
-        $request_data['plugin_dependency_classes'] = sanitize_text_field( $this->generate_dependencies($post_data['plugin_dependency_classes']) ?? '' );
-        $request_data['plugin_dependency_functions'] = sanitize_text_field( $this->generate_dependencies($post_data['plugin_dependency_functions']) ?? '' );
+        $request_data['plugin_dependency_plugins'] = $this->generate_dependencies($post_data['plugin_dependency_plugins']);
+        $request_data['plugin_dependency_classes'] = $this->generate_dependencies($post_data['plugin_dependency_classes']);
+        $request_data['plugin_dependency_functions'] = $this->generate_dependencies($post_data['plugin_dependency_functions']);
 
         $request_data = apply_filters( 'welabs_plugin_composer_form_data', array_filter( $request_data ) );
 
@@ -95,15 +95,18 @@ class ShortCode {
     }
 
     public function generate_dependencies( $inputs ){
-        
-        $parts = explode(',', $inputs);
 
-        $quotedParts = array_map(function ($part) {
-            return "'" . trim($part) . "'";
-        }, $parts);
+        if(!empty($inputs)){
+            $parts = explode(',', sanitize_text_field($inputs));
 
-        $outputString = implode(', ', $quotedParts);
+            $quotedParts = array_map(function ($part) {
+                return "'" . trim($part) . "'";
+            }, $parts);
 
-        return $outputString;
+            $outputString = implode(', ', $quotedParts);
+            return '[' . $outputString . ']';
+        }
+
+        return '[]';
     }
 }
