@@ -75,9 +75,11 @@ final class PluginStub {
      * Initializes the PluginStub() class
      *
      * Checks for an existing PluginStub instance
-     * and if it doesn't find one, creates it.
+     * and if it doesn't find one then create a new one.
+     *
+     * @return PluginStub
      */
-    public static function init() {
+    public static function init(): self {
         if ( self::$instance === null ) {
 			self::$instance = new self();
 		}
@@ -103,7 +105,7 @@ final class PluginStub {
     /**
      * Placeholder for activation function
      *
-     * Nothing being called here yet.
+     * Nothing is being called here yet.
      */
     public function activate() {
         // Check plugin_stub dependency plugins
