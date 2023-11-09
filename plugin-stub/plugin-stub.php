@@ -27,7 +27,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 /**
  * Load Plugin_Stub Plugin when all plugins loaded
  *
- * @return \WeLabs\PluginStub\PluginStub;
+ * @return \WeLabs\PluginStub\PluginStub
  */
 function welabs_plugin_stub() {
     return PluginStub::init();

@@ -79,7 +79,7 @@ final class PluginStub {
      *
      * @return PluginStub
      */
-    public static function init(): self {
+    public static function init() {
         if ( self::$instance === null ) {
 			self::$instance = new self();
 		}
@@ -255,21 +255,21 @@ final class PluginStub {
      * @return boolean
      */
     public function check_dependencies() {
-        if( array_key_exists( 'plugins', self::PLUGIN_STUB_DEPENEDENCIES ) && !empty( self::PLUGIN_STUB_DEPENEDENCIES[ 'plugins' ] ) ){
-            for( $plugin_counter = 0; $plugin_counter < count( self::PLUGIN_STUB_DEPENEDENCIES[ 'plugins' ] ); $plugin_counter++ ){
-                if( ! is_plugin_active( self::PLUGIN_STUB_DEPENEDENCIES[ 'plugins' ][$plugin_counter] ) ) {
+        if ( array_key_exists( 'plugins', self::PLUGIN_STUB_DEPENEDENCIES ) && ! empty( self::PLUGIN_STUB_DEPENEDENCIES['plugins'] ) ) {
+            for ( $plugin_counter = 0; $plugin_counter < count( self::PLUGIN_STUB_DEPENEDENCIES['plugins'] ); $plugin_counter++ ) {
+                if ( ! is_plugin_active( self::PLUGIN_STUB_DEPENEDENCIES['plugins'][ $plugin_counter ] ) ) {
                     return false;
                 }
             }
-        }else if( array_key_exists( 'classes', self::PLUGIN_STUB_DEPENEDENCIES ) && !empty( self::PLUGIN_STUB_DEPENEDENCIES[ 'classes' ] ) ){
-            for( $class_counter = 0; $class_counter < count( self::PLUGIN_STUB_DEPENEDENCIES[ 'classes' ] ); $class_counter++ ){
-                if( ! class_exists( self::PLUGIN_STUB_DEPENEDENCIES[ 'classes' ][$class_counter] ) ) {
+        } elseif ( array_key_exists( 'classes', self::PLUGIN_STUB_DEPENEDENCIES ) && ! empty( self::PLUGIN_STUB_DEPENEDENCIES['classes'] ) ) {
+            for ( $class_counter = 0; $class_counter < count( self::PLUGIN_STUB_DEPENEDENCIES['classes'] ); $class_counter++ ) {
+                if ( ! class_exists( self::PLUGIN_STUB_DEPENEDENCIES['classes'][ $class_counter ] ) ) {
                     return false;
                 }
             }
-        }else if( array_key_exists( 'functions', self::PLUGIN_STUB_DEPENEDENCIES ) && !empty( self::PLUGIN_STUB_DEPENEDENCIES[ 'functions' ] ) ){
-            for( $func_counter = 0; $func_counter < count( self::PLUGIN_STUB_DEPENEDENCIES[ 'functions' ] ); $func_counter++ ){
-                if( ! function_exists( self::PLUGIN_STUB_DEPENEDENCIES[ 'functions' ][$func_counter] ) ) {
+        } elseif ( array_key_exists( 'functions', self::PLUGIN_STUB_DEPENEDENCIES ) && ! empty( self::PLUGIN_STUB_DEPENEDENCIES['functions'] ) ) {
+            for ( $func_counter = 0; $func_counter < count( self::PLUGIN_STUB_DEPENEDENCIES['functions'] ); $func_counter++ ) {
+                if ( ! function_exists( self::PLUGIN_STUB_DEPENEDENCIES['functions'][ $func_counter ] ) ) {
                     return false;
                 }
             }
@@ -295,5 +295,26 @@ final class PluginStub {
     public function admin_error_notice_for_dependency_missing() {
         $class = 'notice notice-error';
 		printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $this->get_dependency_message() ) );
+    }
+
+    /**
+	 * Get the plugin url.
+	 *
+	 * @return string
+	 */
+	public function plugin_url() {
+		return untrailingslashit( plugins_url( '/', PLUGIN_STUB_FILE ) );
+	}
+
+    /**
+     * Get the template file path to require or include.
+     *
+     * @param string $name
+     * @return string
+     */
+    public function get_template( $name ) {
+        $template = untrailingslashit( PLUGIN_STUB_TEMPLATE_DIR ) . '/' . untrailingslashit( $name );
+
+        return apply_filters( 'plugin-stub_template', $template, $name );
     }
 }
