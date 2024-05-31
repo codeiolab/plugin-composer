@@ -14,7 +14,7 @@ composer update --no-dev
 ```
 
 ### Build Release
-Set execution permission to the script file by `chmod +x bin/build.sh` command. Now, Run the following bash script.
+Now, Run the following bash script to create the release version.
 ```
-bin/build.sh
+bash bin/build.sh
 ```
