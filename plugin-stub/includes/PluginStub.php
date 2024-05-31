@@ -142,29 +142,15 @@ final class PluginStub {
      * @return void
      */
     public function define_constants() {
-        $this->define( 'PLUGIN_STUB_PLUGIN_VERSION', $this->version );
-        $this->define( 'PLUGIN_STUB_DIR', dirname( PLUGIN_STUB_FILE ) );
-        $this->define( 'PLUGIN_STUB_INC_DIR', PLUGIN_STUB_DIR . '/includes' );
-        $this->define( 'PLUGIN_STUB_TEMPLATE_DIR', PLUGIN_STUB_DIR . '/templates' );
-        $this->define( 'PLUGIN_STUB_PLUGIN_ASSET', plugins_url( 'assets', PLUGIN_STUB_FILE ) );
+        defined( 'PLUGIN_STUB_PLUGIN_VERSION' ) || define( 'PLUGIN_STUB_PLUGIN_VERSION' , $this->version );
+        defined( 'PLUGIN_STUB_DIR' ) || define( 'PLUGIN_STUB_DIR' , dirname( PLUGIN_STUB_FILE ) );
+        defined( 'PLUGIN_STUB_INC_DIR' ) || define( 'PLUGIN_STUB_INC_DIR' , PLUGIN_STUB_DIR . '/includes' );
+        defined( 'PLUGIN_STUB_TEMPLATE_DIR' ) || define( 'PLUGIN_STUB_TEMPLATE_DIR' , PLUGIN_STUB_DIR . '/templates' );
+        defined( 'PLUGIN_STUB_PLUGIN_ASSET' ) || define( 'PLUGIN_STUB_PLUGIN_ASSET' , plugins_url( 'assets', PLUGIN_STUB_FILE ) );
 
         // give a way to turn off loading styles and scripts from parent theme
-        $this->define( 'PLUGIN_STUB_LOAD_STYLE', true );
-        $this->define( 'PLUGIN_STUB_LOAD_SCRIPTS', true );
-    }
-
-    /**
-     * Define constant if not already defined
-     *
-     * @param string      $name
-     * @param string|bool $value
-     *
-     * @return void
-     */
-    private function define( $name, $value ) {
-        if ( ! defined( $name ) ) {
-            define( $name, $value );
-		}
+        defined( 'PLUGIN_STUB_LOAD_STYLE' ) || define( 'PLUGIN_STUB_LOAD_STYLE' , true );
+        defined( 'PLUGIN_STUB_LOAD_SCRIPTS' ) || define( 'PLUGIN_STUB_LOAD_SCRIPTS' , true );
     }
 
     /**
