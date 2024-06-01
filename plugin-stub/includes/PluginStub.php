@@ -39,7 +39,7 @@ final class PluginStub {
      *
      * @var array
      */
-    private const PLUGIN_STUB_DEPENEDENCIES = [
+    private const PLUGIN_STUB_DEPENDENCIES = [
         'plugins' => [
             // 'woocommerce/woocommerce.php',
             // 'dokan-lite/dokan.php',
@@ -241,21 +241,27 @@ final class PluginStub {
      * @return boolean
      */
     public function check_dependencies() {
-        if ( array_key_exists( 'plugins', self::PLUGIN_STUB_DEPENEDENCIES ) && ! empty( self::PLUGIN_STUB_DEPENEDENCIES['plugins'] ) ) {
-            for ( $plugin_counter = 0; $plugin_counter < count( self::PLUGIN_STUB_DEPENEDENCIES['plugins'] ); $plugin_counter++ ) {
-                if ( ! is_plugin_active( self::PLUGIN_STUB_DEPENEDENCIES['plugins'][ $plugin_counter ] ) ) {
+        if ( array_key_exists( 'plugins', self::PLUGIN_STUB_DEPENDENCIES ) && ! empty( self::PLUGIN_STUB_DEPENDENCIES['plugins'] ) ) {
+            $length = count( self::PLUGIN_STUB_DEPENDENCIES['plugins'] );
+            
+            for ( $plugin_counter = 0; $plugin_counter < $length; $plugin_counter++ ) {
+                if ( ! is_plugin_active( self::PLUGIN_STUB_DEPENDENCIES['plugins'][ $plugin_counter ] ) ) {
                     return false;
                 }
             }
-        } elseif ( array_key_exists( 'classes', self::PLUGIN_STUB_DEPENEDENCIES ) && ! empty( self::PLUGIN_STUB_DEPENEDENCIES['classes'] ) ) {
-            for ( $class_counter = 0; $class_counter < count( self::PLUGIN_STUB_DEPENEDENCIES['classes'] ); $class_counter++ ) {
-                if ( ! class_exists( self::PLUGIN_STUB_DEPENEDENCIES['classes'][ $class_counter ] ) ) {
+        } elseif ( array_key_exists( 'classes', self::PLUGIN_STUB_DEPENDENCIES ) && ! empty( self::PLUGIN_STUB_DEPENDENCIES['classes'] ) ) {
+            $length = count( self::PLUGIN_STUB_DEPENDENCIES['classes'] );
+            
+            for ( $class_counter = 0; $class_counter < $length; $class_counter++ ) {
+                if ( ! class_exists( self::PLUGIN_STUB_DEPENDENCIES['classes'][ $class_counter ] ) ) {
                     return false;
                 }
             }
-        } elseif ( array_key_exists( 'functions', self::PLUGIN_STUB_DEPENEDENCIES ) && ! empty( self::PLUGIN_STUB_DEPENEDENCIES['functions'] ) ) {
-            for ( $func_counter = 0; $func_counter < count( self::PLUGIN_STUB_DEPENEDENCIES['functions'] ); $func_counter++ ) {
-                if ( ! function_exists( self::PLUGIN_STUB_DEPENEDENCIES['functions'][ $func_counter ] ) ) {
+        } elseif ( array_key_exists( 'functions', self::PLUGIN_STUB_DEPENDENCIES ) && ! empty( self::PLUGIN_STUB_DEPENDENCIES['functions'] ) ) {
+            $length = count( self::PLUGIN_STUB_DEPENDENCIES['functions'] );
+            
+            for ( $func_counter = 0; $func_counter < $length; $func_counter++ ) {
+                if ( ! function_exists( self::PLUGIN_STUB_DEPENDENCIES['functions'][ $func_counter ] ) ) {
                     return false;
                 }
             }
