@@ -4,7 +4,8 @@
     "license": "plugin_license",
     "autoload": {
         "psr-4": {
-            "WeLabs\\PluginStub\\": "includes/"
+            "WeLabs\\PluginStub\\": "includes/",
+			"WeLabs\\PluginStub\\ThirdParty\\Packages\\": "lib/packages/"
         }
     },
     "authors": [
