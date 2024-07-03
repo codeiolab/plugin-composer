@@ -9,10 +9,6 @@ use WeLabs\PluginComposer\Contracts\FileSystemContract;
 use ZipArchive;
 
 class FileSystem implements FileSystemContract {
-    public function __construct()
-    {
-        error_log('instantiates the filesystem -->' );
-    }
 
     /**
      * @inheritDoc

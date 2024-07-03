@@ -34,17 +34,21 @@ $GLOBALS['welabs_plugin_composer_container'] = new Container();
 $GLOBALS['welabs_plugin_composer_container']->addServiceProvider( new \WeLabs\PluginComposer\Providers\ServiceProvider() );
 
 /**
+ * Get the container.
+ *
+ * @return Container
+ */
+function welabs_plugin_composer_get_container(): Container {
+	return $GLOBALS['welabs_plugin_composer_container'];
+}
+
+/**
  * Load Plugin_Composer Plugin when all plugins loaded
  *
  * @return Plugin_Composer
  */
 function welabs_plugin_composer(): PluginComposer {
 	return PluginComposer::init();
-}
-
-// Get the container.
-function welabs_plugin_composer_get_container(): Container {
-	return $GLOBALS['welabs_plugin_composer_container'];
 }
 
 // Lets Go....
