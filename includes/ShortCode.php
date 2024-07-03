@@ -2,11 +2,13 @@
 
 namespace WeLabs\PluginComposer;
 
-class ShortCode {
+use WeLabs\PluginComposer\Contracts\Hookable;
+
+class ShortCode implements Hookable {
     public const NAME = 'wlb_plugin_composer';
     protected $error_messages = [];
 
-    public function __construct() {
+    public function register_hooks(): void {
         add_shortcode( self::NAME, [ $this, 'shortcode' ], 2 );
         add_action( 'template_redirect', [ $this, 'handle_form_submission' ] );
     }

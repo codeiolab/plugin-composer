@@ -13,6 +13,7 @@
  * License: GPL2
  */
 
+use WeLabs\PluginComposer\Container;
 use WeLabs\PluginComposer\PluginComposer;
 
 // Don't call the file directly
@@ -34,6 +35,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 function welabs_plugin_composer(): PluginComposer {
 	return PluginComposer::init();
 }
+
+
 
 // Lets Go....
 welabs_plugin_composer();
