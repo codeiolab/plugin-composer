@@ -13,7 +13,7 @@
  * License: GPL2
  */
 
-use WeLabs\PluginComposer\Container;
+use WeLabs\PluginComposer\DependencyManagement\Container;
 use WeLabs\PluginComposer\PluginComposer;
 
 // Don't call the file directly
@@ -27,6 +27,12 @@ if ( ! defined( 'PLUGIN_COMPOSER_FILE' ) ) {
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+// Instantiate the container
+$GLOBALS['welabs_plugin_composer_container'] = new Container();
+
+// Register the service providers
+$GLOBALS['welabs_plugin_composer_container']->addServiceProvider( new \WeLabs\PluginComposer\Providers\ServiceProvider() );
+
 /**
  * Load Plugin_Composer Plugin when all plugins loaded
  *
@@ -36,7 +42,10 @@ function welabs_plugin_composer(): PluginComposer {
 	return PluginComposer::init();
 }
 
-
+// Get the container.
+function welabs_plugin_composer_get_container(): Container {
+	return $GLOBALS['welabs_plugin_composer_container'];
+}
 
 // Lets Go....
 welabs_plugin_composer();

@@ -2,14 +2,10 @@
 
 namespace WeLabs\PluginComposer;
 
-use WeLabs\PluginComposer\Assets;
 use WeLabs\PluginComposer\Contracts\BuilderContract;
 use WeLabs\PluginComposer\Contracts\FileSystemContract;
 use WeLabs\PluginComposer\Contracts\Hookable;
 use WeLabs\PluginComposer\DependencyManagement\Container;
-use WeLabs\PluginComposer\Lib\FileSystem;
-use WeLabs\PluginComposer\Lib\PluginBuilder;
-use WeLabs\PluginComposer\ShortCode;
 
 /**
  * PluginComposer class.
@@ -40,10 +36,6 @@ final class PluginComposer {
 	 */
 	private $container = array();
 
-
-	// Initialize dependency injection.
-	private $service_container;
-
 	/**
 	 * Constructor for the PluginComposer class
 	 *
@@ -52,12 +44,8 @@ final class PluginComposer {
 	 */
 	private function __construct() {
 		$this->define_constants();
-
 		register_activation_hook( PLUGIN_COMPOSER_FILE, array( $this, 'activate' ) );
 		register_deactivation_hook( PLUGIN_COMPOSER_FILE, array( $this, 'deactivate' ) );
-		$this->service_container = new Container();
-		$this->register_services();
-
 		add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
 		add_action( 'woocommerce_flush_rewrite_rules', array( $this, 'flush_rewrite_rules' ) );
 	}
@@ -168,22 +156,14 @@ final class PluginComposer {
 		// include_once STUB_PLUGIN_DIR . '/functions.php';
 	}
 
-	public function register_services() {
-		$container = $this->get_container();
-
-		$container->addServiceProvider( new \WeLabs\PluginComposer\Providers\ServiceProvider() );
-
-		do_action( 'plugin_composer_bind_container', $container );
-	}
-
 	/**
 	 * Init all the classes
 	 *
 	 * @return void
 	 */
 	public function init_classes() {
-
 		$container = $this->get_container();
+
 		/**
 		 * These classes have a register method for attaching hooks.
 		 *
@@ -250,6 +230,6 @@ final class PluginComposer {
 	}
 
 	public function get_container(): Container {
-		return $this->service_container;
+		return welabs_plugin_composer_get_container();
 	}
 }
