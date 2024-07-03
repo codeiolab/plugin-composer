@@ -7,7 +7,7 @@ Describe your PR's. It could be a checklist or description
 
 * [ ] My code satisfies feature requirements.
 * [ ] I update README file to track the core file changes of the dependant plugins.
-* I use localized text everywhere.
+* [ ] I use localized text everywhere.
 
 ### Coding Standards:
 * [ ] My code is readable.
