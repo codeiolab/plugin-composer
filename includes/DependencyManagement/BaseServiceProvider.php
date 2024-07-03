@@ -17,7 +17,7 @@ use WeLabs\PluginComposer\ThirdParty\Packages\League\Container\ServiceProvider\A
  * tasked with registering classes that implement interfaces.
  */
 abstract class BaseServiceProvider extends AbstractServiceProvider {
-	protected $provides = [];
+	protected $services = [];
 
 	/**
 	 * Determine whether this service provides the given alias.
@@ -30,7 +30,7 @@ abstract class BaseServiceProvider extends AbstractServiceProvider {
 		static $implements = array();
 
 		if ( empty( $implements ) ) {
-			foreach ( $this->provides as $class ) {
+			foreach ( $this->services as $class ) {
 				$implements_more = class_implements( $class );
 				if ( $implements_more ) {
 					$implements = array_merge( $implements, $implements_more );
