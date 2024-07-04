@@ -2,11 +2,10 @@
 
 namespace WeLabs\PluginStub\Providers;
 
-use WeLabs\PluginStub\DependencyManagement\BaseServiceProvider;
 use WeLabs\PluginStub\Assets;
-use WeLabs\PluginStub\ThirdParty\Packages\League\Container\ServiceProvider\BootableServiceProviderInterface;
+use WeLabs\PluginStub\DependencyManagement\BootableServiceProvider;
 
-class ServiceProvider extends BaseServiceProvider implements BootableServiceProviderInterface {
+class ServiceProvider extends BootableServiceProvider {
 	protected $services = [
 		Assets::class,
 	];
