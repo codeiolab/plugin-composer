@@ -61,8 +61,13 @@ class ShortCode implements Hookable {
 
         $request_data = apply_filters( 'welabs_plugin_composer_form_data', array_filter( $request_data ) );
 
+        $plugin_type = $post_data['plugin_type'] ?? '';
+
+        $plugin_stub_src_dir = $plugin_type === 'classic' ? Constants::CLASSIC_PLUGIN_STUB_SRC_DIR : Constants::PLUGIN_STUB_SRC_DIR;
         $builder = welabs_plugin_composer()->get_builder();
-        $builder->set_placeholders( $request_data );
+        $builder->set_stub_plugin_path( $plugin_stub_src_dir )
+            ->set_placeholders( $request_data );
+
         $zip_name = $builder->build( $request_data['plugin_name'] );
 
         $plugin_folder_name = sanitize_title( $request_data['plugin_name'] );

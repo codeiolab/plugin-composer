@@ -7,8 +7,17 @@
             <input name="plugin_name" id="plugin_name" required class="input-control" placeholder="My Plugin">
             <div class="error-message"> <?php echo $error_messages['plugin_name'] ?? ''; ?></div>
         </div>
-        </div>
+    </div>
 
+    <div class="form-group">
+        <label class="control-label" for="plugin_author_uri">
+            Plugin Type
+        </label>
+        <select name="plugin_type" class="plugin-type">
+            <option value="classic">Classic</option>
+            <option value="container_based">Container Based</option>
+        </select>
+    </div>
     <div class="form-group">
         <label class="control-label" for="plugin_description">
             Plugin Description
