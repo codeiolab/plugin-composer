@@ -2,6 +2,8 @@
 
 namespace WeLabs\PluginStub;
 
+use WeLabs\PluginStub\DependencyManagement\Container;
+use WeLabs\PluginStub\Contracts\Hookable;
 /**
  * PluginStub class
  *
@@ -92,14 +94,12 @@ final class PluginStub {
      *
      * @since 2.6.10
      *
-     * @param string $prop
+     * @param string $key
      *
      * @return Class Instance
      */
-    public function __get( $prop ) {
-		if ( array_key_exists( $prop, $this->container ) ) {
-            return $this->container[ $prop ];
-		}
+    public function __get( $key ) {
+		return $this->get_container()->get( $key );
     }
 
     /**
@@ -142,15 +142,15 @@ final class PluginStub {
      * @return void
      */
     public function define_constants() {
-        defined( 'PLUGIN_STUB_PLUGIN_VERSION' ) || define( 'PLUGIN_STUB_PLUGIN_VERSION' , $this->version );
-        defined( 'PLUGIN_STUB_DIR' ) || define( 'PLUGIN_STUB_DIR' , dirname( PLUGIN_STUB_FILE ) );
-        defined( 'PLUGIN_STUB_INC_DIR' ) || define( 'PLUGIN_STUB_INC_DIR' , PLUGIN_STUB_DIR . '/includes' );
-        defined( 'PLUGIN_STUB_TEMPLATE_DIR' ) || define( 'PLUGIN_STUB_TEMPLATE_DIR' , PLUGIN_STUB_DIR . '/templates' );
-        defined( 'PLUGIN_STUB_PLUGIN_ASSET' ) || define( 'PLUGIN_STUB_PLUGIN_ASSET' , plugins_url( 'assets', PLUGIN_STUB_FILE ) );
+        defined( 'PLUGIN_STUB_PLUGIN_VERSION' ) || define( 'PLUGIN_STUB_PLUGIN_VERSION', $this->version );
+        defined( 'PLUGIN_STUB_DIR' ) || define( 'PLUGIN_STUB_DIR', dirname( PLUGIN_STUB_FILE ) );
+        defined( 'PLUGIN_STUB_INC_DIR' ) || define( 'PLUGIN_STUB_INC_DIR', PLUGIN_STUB_DIR . '/includes' );
+        defined( 'PLUGIN_STUB_TEMPLATE_DIR' ) || define( 'PLUGIN_STUB_TEMPLATE_DIR', PLUGIN_STUB_DIR . '/templates' );
+        defined( 'PLUGIN_STUB_PLUGIN_ASSET' ) || define( 'PLUGIN_STUB_PLUGIN_ASSET', plugins_url( 'assets', PLUGIN_STUB_FILE ) );
 
         // give a way to turn off loading styles and scripts from parent theme
-        defined( 'PLUGIN_STUB_LOAD_STYLE' ) || define( 'PLUGIN_STUB_LOAD_STYLE' , true );
-        defined( 'PLUGIN_STUB_LOAD_SCRIPTS' ) || define( 'PLUGIN_STUB_LOAD_SCRIPTS' , true );
+        defined( 'PLUGIN_STUB_LOAD_STYLE' ) || define( 'PLUGIN_STUB_LOAD_STYLE', true );
+        defined( 'PLUGIN_STUB_LOAD_SCRIPTS' ) || define( 'PLUGIN_STUB_LOAD_SCRIPTS', true );
     }
 
     /**
@@ -197,7 +197,18 @@ final class PluginStub {
      * @return void
      */
     public function init_classes() {
-        $this->container['scripts'] = new Assets();
+        $container = $this->get_container();
+
+		/**
+		 * These classes have a register method for attaching hooks.
+		 *
+		 * @var RegisterHooksInterface[] $hook_register_classes
+		 */
+		$hook_register_classes = $container->get( Hookable::class );
+
+		foreach ( $hook_register_classes as $hook_register_class ) {
+			$hook_register_class->register_hooks();
+		}
     }
 
     /**
@@ -243,7 +254,7 @@ final class PluginStub {
     public function check_dependencies() {
         if ( array_key_exists( 'plugins', self::PLUGIN_STUB_DEPENDENCIES ) && ! empty( self::PLUGIN_STUB_DEPENDENCIES['plugins'] ) ) {
             $length = count( self::PLUGIN_STUB_DEPENDENCIES['plugins'] );
-            
+
             for ( $plugin_counter = 0; $plugin_counter < $length; $plugin_counter++ ) {
                 if ( ! is_plugin_active( self::PLUGIN_STUB_DEPENDENCIES['plugins'][ $plugin_counter ] ) ) {
                     return false;
@@ -251,7 +262,7 @@ final class PluginStub {
             }
         } elseif ( array_key_exists( 'classes', self::PLUGIN_STUB_DEPENDENCIES ) && ! empty( self::PLUGIN_STUB_DEPENDENCIES['classes'] ) ) {
             $length = count( self::PLUGIN_STUB_DEPENDENCIES['classes'] );
-            
+
             for ( $class_counter = 0; $class_counter < $length; $class_counter++ ) {
                 if ( ! class_exists( self::PLUGIN_STUB_DEPENDENCIES['classes'][ $class_counter ] ) ) {
                     return false;
@@ -259,7 +270,7 @@ final class PluginStub {
             }
         } elseif ( array_key_exists( 'functions', self::PLUGIN_STUB_DEPENDENCIES ) && ! empty( self::PLUGIN_STUB_DEPENDENCIES['functions'] ) ) {
             $length = count( self::PLUGIN_STUB_DEPENDENCIES['functions'] );
-            
+
             for ( $func_counter = 0; $func_counter < $length; $func_counter++ ) {
                 if ( ! function_exists( self::PLUGIN_STUB_DEPENDENCIES['functions'][ $func_counter ] ) ) {
                     return false;
@@ -308,5 +319,9 @@ final class PluginStub {
         $template = untrailingslashit( PLUGIN_STUB_TEMPLATE_DIR ) . '/' . untrailingslashit( $name );
 
         return apply_filters( 'plugin-stub_template', $template, $name );
+    }
+
+    public function get_container(): Container {
+		return welabs_plugin_stub_get_container();
     }
 }

@@ -2,11 +2,15 @@
 
 namespace WeLabs\PluginStub;
 
-class Assets {
+use WeLabs\PluginStub\Contracts\Hookable;
+
+class Assets implements Hookable {
     /**
-     * The constructor.
+     * Resister the hooks.
+     *
+     * @return void
      */
-    public function __construct() {
+    public function register_hooks(): void {
         add_action( 'init', [ $this, 'register_all_scripts' ], 10 );
 
         if ( is_admin() ) {
