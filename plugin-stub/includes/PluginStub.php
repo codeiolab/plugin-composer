@@ -33,29 +33,6 @@ final class PluginStub {
     private $container = [];
 
     /**
-     * Plugin dependencies
-     *
-     * @since 2.6.10
-     *
-     * @var array
-     */
-    private const PLUGIN_STUB_DEPENDENCIES = [
-        'plugins' => [
-            // 'woocommerce/woocommerce.php',
-            // 'dokan-lite/dokan.php',
-            // 'dokan-pro/dokan-pro.php'
-        ],
-        'classes' => [
-            // 'Woocommerce',
-            // 'WeDevs_Dokan',
-            // 'Dokan_Pro'
-        ],
-        'functions' => [
-            // 'dokan_admin_menu_position'
-        ],
-    ];
-
-    /**
      * Constructor for the PluginStub class
      *
      * Sets up all the appropriate hooks and actions
@@ -108,11 +85,6 @@ final class PluginStub {
      * Nothing is being called here yet.
      */
     public function activate() {
-        // Check plugin_stub dependency plugins
-        if ( ! $this->check_dependencies() ) {
-            wp_die( $this->get_dependency_message() );
-        }
-
         // Rewrite rules during plugin_stub activation
         if ( $this->has_woocommerce() ) {
             $this->flush_rewrite_rules();
@@ -159,12 +131,6 @@ final class PluginStub {
      * @return void
      */
     public function init_plugin() {
-        // Check plugin_stub dependency plugins
-        if ( ! $this->check_dependencies() ) {
-            add_action( 'admin_notices', [ $this, 'admin_error_notice_for_dependency_missing' ] );
-            return;
-        }
-
         $this->includes();
         $this->init_hooks();
 
@@ -233,60 +199,6 @@ final class PluginStub {
      */
     public function is_woocommerce_installed() {
         return in_array( 'woocommerce/woocommerce.php', array_keys( get_plugins() ), true );
-    }
-
-    /**
-     * Check plugin dependencies
-     *
-     * @return boolean
-     */
-    public function check_dependencies() {
-        if ( array_key_exists( 'plugins', self::PLUGIN_STUB_DEPENDENCIES ) && ! empty( self::PLUGIN_STUB_DEPENDENCIES['plugins'] ) ) {
-            $length = count( self::PLUGIN_STUB_DEPENDENCIES['plugins'] );
-            
-            for ( $plugin_counter = 0; $plugin_counter < $length; $plugin_counter++ ) {
-                if ( ! is_plugin_active( self::PLUGIN_STUB_DEPENDENCIES['plugins'][ $plugin_counter ] ) ) {
-                    return false;
-                }
-            }
-        } elseif ( array_key_exists( 'classes', self::PLUGIN_STUB_DEPENDENCIES ) && ! empty( self::PLUGIN_STUB_DEPENDENCIES['classes'] ) ) {
-            $length = count( self::PLUGIN_STUB_DEPENDENCIES['classes'] );
-            
-            for ( $class_counter = 0; $class_counter < $length; $class_counter++ ) {
-                if ( ! class_exists( self::PLUGIN_STUB_DEPENDENCIES['classes'][ $class_counter ] ) ) {
-                    return false;
-                }
-            }
-        } elseif ( array_key_exists( 'functions', self::PLUGIN_STUB_DEPENDENCIES ) && ! empty( self::PLUGIN_STUB_DEPENDENCIES['functions'] ) ) {
-            $length = count( self::PLUGIN_STUB_DEPENDENCIES['functions'] );
-            
-            for ( $func_counter = 0; $func_counter < $length; $func_counter++ ) {
-                if ( ! function_exists( self::PLUGIN_STUB_DEPENDENCIES['functions'][ $func_counter ] ) ) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Dependency error message
-     *
-     * @return void
-     */
-    protected function get_dependency_message() {
-        return __( 'Plugin Stub plugin is enabled but not effective. It requires dependency plugins to work.', 'plugin-stub' );
-    }
-
-    /**
-     * Admin error notice for missing dependency plugins
-     *
-     * @return void
-     */
-    public function admin_error_notice_for_dependency_missing() {
-        $class = 'notice notice-error';
-		printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $this->get_dependency_message() ) );
     }
 
     /**
