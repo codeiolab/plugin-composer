@@ -19,7 +19,7 @@ class PluginBuilder implements BuilderContract {
         'plugin_author_name' => 'WeLabs',
         'plugin_author_email' => 'contact@welabs.dev',
         'plugin_author_uri' => 'https://welabs.dev',
-        'plugin_requires' => 'woocommerce, dokan-lite, dokan-pro',
+        'plugin_requires' => '',
     ];
 
     public function __construct( FileSystemContract $file_system ) {
