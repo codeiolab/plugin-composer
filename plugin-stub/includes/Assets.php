@@ -34,11 +34,11 @@ class Assets {
      * @return void
      */
     public function register_scripts() {
-        $admin_script       = PLUGIN_STUB_PLUGIN_ASSET . '/admin/script.js';
-        $frontend_script    = PLUGIN_STUB_PLUGIN_ASSET . '/frontend/script.js';
+        $admin_script       = PLUGIN_STUB_PLUGIN_ADMIN_ASSET . '/js/script.js';
+        $frontend_script    = PLUGIN_STUB_PLUGIN_PUBLIC_ASSET . '/js/script.js';
 
-        wp_register_script( 'plugin_stub_admin_script', $admin_script, [], filemtime( PLUGIN_STUB_DIR . '/assets/admin/script.js' ), true );
-        wp_register_script( 'plugin_stub_script', $frontend_script, [], filemtime( PLUGIN_STUB_DIR . '/assets/frontend/script.js' ), true );
+        wp_register_script( 'plugin_stub_admin_script', $admin_script, [], PLUGIN_STUB_PLUGIN_VERSION, true );
+        wp_register_script( 'plugin_stub_script', $frontend_script, [], PLUGIN_STUB_PLUGIN_VERSION, true );
     }
 
     /**
@@ -47,11 +47,11 @@ class Assets {
      * @return void
      */
     public function register_styles() {
-        $admin_style       = PLUGIN_STUB_PLUGIN_ASSET . '/admin/style.css';
-        $frontend_style    = PLUGIN_STUB_PLUGIN_ASSET . '/frontend/style.css';
+        $admin_style       = PLUGIN_STUB_PLUGIN_ADMIN_ASSET . '/js/style.css';
+        $frontend_style    = PLUGIN_STUB_PLUGIN_PUBLIC_ASSET . '/js/style.css';
 
-        wp_register_style( 'plugin_stub_admin_style', $admin_style, [], filemtime( PLUGIN_STUB_DIR . '/assets/admin/style.css' ) );
-        wp_register_style( 'plugin_stub_style', $frontend_style, [], filemtime( PLUGIN_STUB_DIR . '/assets/frontend/style.css' ) );
+        wp_register_style( 'plugin_stub_admin_style', $admin_style, [], PLUGIN_STUB_PLUGIN_VERSION );
+        wp_register_style( 'plugin_stub_style', $frontend_style, [], PLUGIN_STUB_PLUGIN_VERSION );
     }
 
     /**
